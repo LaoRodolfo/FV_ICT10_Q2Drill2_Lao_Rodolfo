@@ -1,0 +1,292 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICT Fairview Club | Member Manager</title>
+
+    <link rel="stylesheet" href="https://pyscript.net/releases/2026.7.3/core.css">
+    <script type="module" src="https://pyscript.net/releases/2026.7.3/core.js"></script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 25px;
+            background:
+                radial-gradient(ellipse at top, #172c49 0%, transparent 55%),
+                #070b15;
+            color: #eaf5ff;
+            font-family: "Segoe UI", Arial, sans-serif;
+        }
+
+        .page {
+            width: 100%;
+            max-width: 520px;
+        }
+
+        .top-label {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 9px;
+            margin-bottom: 24px;
+            color: #69f5ff;
+            font-size: 11px;
+            font-weight: bold;
+            letter-spacing: 4px;
+        }
+
+        .status-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #61ffe1;
+            box-shadow: 0 0 12px #61ffe1;
+        }
+
+        .header {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .logo {
+            width: 64px;
+            height: 64px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 19px;
+            border: 1px solid #4df4ff;
+            border-radius: 18px;
+            background: #101f35;
+            box-shadow: 0 0 28px #00d9ff24,
+                        inset 0 0 20px #00d9ff13;
+            color: #68f7ff;
+            font-size: 29px;
+            font-weight: bold;
+            transform: rotate(-5deg);
+        }
+
+        h1 {
+            margin: 0;
+            font-size: clamp(25px, 6vw, 35px);
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        h1 span {
+            color: #60f5ff;
+            text-shadow: 0 0 8px #00d9ff,
+                         0 0 20px #00d9ff80;
+        }
+
+        .subtitle {
+            margin-top: 11px;
+            color: #899bb6;
+            font-size: 11px;
+            letter-spacing: 2px;
+        }
+
+        .card {
+            position: relative;
+            padding: 30px 27px;
+            border: 1px solid #273c58;
+            border-radius: 15px;
+            background: linear-gradient(145deg, #121d30, #0c1220);
+            box-shadow: 0 18px 50px #00000055,
+                        0 0 25px #00d9ff0b;
+        }
+
+        .card::before {
+            position: absolute;
+            top: -1px;
+            left: 24%;
+            width: 52%;
+            height: 2px;
+            background: linear-gradient(
+                90deg, transparent, #63f6ff, #c77dff, transparent
+            );
+            content: "";
+        }
+
+        .section-label {
+            margin: 0 0 24px;
+            color: #c2d4ec;
+            font-size: 12px;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 9px;
+            color: #aabbd3;
+            font-size: 12px;
+        }
+
+        input {
+            width: 100%;
+            margin-bottom: 20px;
+            padding: 14px 15px;
+            border: 1px solid #30435e;
+            border-radius: 7px;
+            outline: none;
+            background: #090f1b;
+            color: #f0f8ff;
+            font-size: 14px;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        input::placeholder {
+            color: #586981;
+        }
+
+        input:focus {
+            border-color: #55eefa;
+            box-shadow: 0 0 0 3px #55eefa12;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid #6df7ff;
+            border-radius: 7px;
+            background: linear-gradient(100deg, #087e9c, #5140a7);
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            cursor: pointer;
+            box-shadow: 0 0 20px #00cfff19;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 25px #00d9ff38;
+        }
+
+        #result {
+            margin-top: 21px;
+            padding: 18px;
+            border: 1px solid #293b53;
+            border-left: 3px solid #5ef5ff;
+            border-radius: 7px;
+            background: #080f1a;
+            color: #c6d7ed;
+            font-size: 12px;
+            line-height: 1.9;
+            overflow-wrap: anywhere;
+        }
+
+        #result h3 {
+            margin: 0 0 10px;
+            color: #62eefa;
+            font-size: 12px;
+            letter-spacing: 1px;
+        }
+
+        .total {
+            margin-top: 14px;
+            padding-top: 12px;
+            border-top: 1px solid #293b53;
+            color: #61ffe1;
+            font-weight: bold;
+        }
+
+        .footer {
+            margin-top: 24px;
+            color: #60728c;
+            font-size: 10px;
+            letter-spacing: 1.5px;
+            text-align: center;
+            line-height: 1.8;
+        }
+
+        .footer span {
+            color: #62eefa;
+        }
+
+        .footer p {
+            margin-top: 10px;
+            color: #899bb6;
+        }
+
+        @media (max-width: 400px) {
+            .card {
+                padding: 25px 20px;
+            }
+
+            .subtitle {
+                font-size: 10px;
+                letter-spacing: 1px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="page">
+
+        <div class="top-label">
+            <span class="status-dot"></span>
+            SYSTEM ONLINE
+        </div>
+
+        <header class="header">
+            <div class="logo">F</div>
+            <h1><span>ICT</span> FAIRVIEW CLUB</h1>
+            <p class="subtitle">CLUB MEMBER MANAGEMENT SYSTEM</p>
+        </header>
+
+        <section class="card">
+            <p class="section-label">01 / ADD NEW CLUB MEMBER</p>
+
+            <label for="first-name">FIRST NAME</label>
+            <input
+                type="text"
+                id="first-name"
+                placeholder="Enter the first name"
+                autocomplete="given-name"
+            >
+
+            <label for="last-name">LAST NAME</label>
+            <input
+                type="text"
+                id="last-name"
+                placeholder="Enter the last name"
+                autocomplete="family-name"
+            >
+
+            <button id="add-button" py-click="add_member">
+                ADD CLUB MEMBER &nbsp; →
+            </button>
+
+            <div id="result" aria-live="polite">
+                <h3>ALL CLUB MEMBERS</h3>
+                Enter a new member's information above.
+            </div>
+        </section>
+
+        <footer class="footer">
+            <span>ICT FAIRVIEW CLUB</span> &nbsp; / &nbsp;
+            MEMBERSHIP PORTAL &nbsp; / &nbsp; 2026
+
+            <p>BY RODOLFO C. LAO III / 10-RUBY</p>
+        </footer>
+
+    </main>
+
+    <!-- Loads the Python code for the set operations. -->
+    <script type="py" src="./main.py"></script>
+</body>
+</html>
